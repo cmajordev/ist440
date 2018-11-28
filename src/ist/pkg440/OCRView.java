@@ -5,16 +5,20 @@
  */
 package ist.pkg440;
 
+import ist.pkg440.requests.TranslationLanguage;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -25,6 +29,7 @@ import javax.swing.JTextField;
  * @author andre
  */
 public class OCRView extends JPanel{
+
     private GridBagLayout gbl;
     private GridBagConstraints gbc;
     private JTextField userNameField;
@@ -35,10 +40,12 @@ public class OCRView extends JPanel{
     private JLabel logo;
     private JLabel checkmark;
     private JButton explorerButton;
+    private JButton processButton;
     private ImageIcon logoPic;
     private ImageIcon checkmarkPic;
     private BufferedImage bg;
     private String fileName;
+    private JComboBox languageList;
     
     public OCRView() {
         // Set Layout
@@ -81,6 +88,31 @@ public class OCRView extends JPanel{
         instructionsLabel.setForeground(Color.white);
         gbc.gridy = 5;
         this.add(instructionsLabel, gbc);
+        
+        // Filler Space
+        JLabel empty3 = new JLabel(" ");
+        gbc.gridy = 6;
+        this.add(empty3, gbc);
+        
+        TranslationLanguage[] languages = TranslationLanguage.all();
+        String[] presentableStrings = new String[languages.length + 1];
+        presentableStrings[0] = "";
+        for (int i = 1; i < languages.length + 1; i++) {
+            presentableStrings[i] = languages[i - 1].getPresentableValue();
+        }
+        languageList = new JComboBox(presentableStrings);
+        languageList.setSelectedIndex(0);
+        
+        gbc.gridy = 7;
+        this.add(languageList, gbc);
+        
+        JLabel empty4 = new JLabel(" ");
+        gbc.gridy = 8;
+        this.add(empty4, gbc);
+        
+        processButton = new JButton("Process");
+        gbc.gridy = 9;
+        this.add(processButton, gbc);
     }
     
     @Override
@@ -102,9 +134,23 @@ public class OCRView extends JPanel{
         return explorerButton;
     }
     
+    /**
+     * @return the explorerButton
+     */
+    public JButton getProcessButton()
+    {
+        return processButton;
+    }
+    
+    public JComboBox getLanguageList() 
+    {
+        return languageList;
+    }
+    
     public void setFileName(String name) 
     {
         System.out.println(name);
         fileName = name;
+        instructionsLabel.setText("File: " + name);
     }
 }

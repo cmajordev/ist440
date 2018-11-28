@@ -24,4 +24,28 @@ public enum TranslationLanguage {
     private TranslationLanguage(String value) {
         this.value = value;
     }
+    
+    public static TranslationLanguage[] all() {
+        return new TranslationLanguage[]{
+            TranslationLanguage.ENGLISH,
+            TranslationLanguage.PORTUGUES_BR,
+            TranslationLanguage.FRENCH,
+            TranslationLanguage.TURKISH
+        };
+    }
+    
+    public String getPresentableValue() {
+        switch (this) {
+            case ENGLISH:
+                return "English";
+            case PORTUGUES_BR:
+                return "Portugues";
+            case FRENCH:
+                return "French";
+            case TURKISH:
+                return "Turkish";
+            default:
+                return "";
+        }
+    }
 }

@@ -14,12 +14,14 @@ import java.io.IOException;
 public class DecipherImageProccess {
 
     private final DecipherImageProccessDelegate delegate;
+    private final TranslationLanguage language;
     private OCRRequest ocrRequest;
     private DecipherRequest decipherRequest;
     private TranslationRequest translationRequest;
 
-    public DecipherImageProccess(DecipherImageProccessDelegate delegate) {
+    public DecipherImageProccess(TranslationLanguage language, DecipherImageProccessDelegate delegate) {
         this.delegate = delegate;
+        this.language = language;
     }
 
     /**
@@ -27,6 +29,13 @@ public class DecipherImageProccess {
      */
     public DecipherImageProccessDelegate getDelegate() {
         return delegate;
+    }
+    
+    /**
+     * @return the language
+     */
+    public TranslationLanguage getLanguage() {
+        return language;
     }
     
     public void decipher(byte[] imageData) {
@@ -57,7 +66,7 @@ public class DecipherImageProccess {
     }
     
     void makeTranslationRequestTest(String value) {
-        this.translationRequest = new TranslationRequest(TranslationLanguage.PORTUGUES_BR, value);
+        this.translationRequest = new TranslationRequest(getLanguage(), value);
         this.translationRequest.make(new HTTPResponse<TranslationSuccessResponse, String>() {
             @Override
             public void invalidRequestError(InvalidRequestError error) {
@@ -78,7 +87,8 @@ public class DecipherImageProccess {
             public void success(TranslationSuccessResponse response) {
                 getDelegate().finishedStep(DecipherImageProccessStep.TRANSLATE);
                 System.out.println("TranslationSuccessResponse: " + response);
-                getDelegate().success(response.getTranslatedText());
+                String translatedText = response.getTranslatedText();
+                getDelegate().success(translatedText);
             }
         });
     }

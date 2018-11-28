@@ -85,6 +85,8 @@ public class TranslationRequest extends HTTPRequest {
                     return;
                 }
                 
+                System.out.println(json);
+                
                 try {
                     TranslationSuccessResponse response = new Gson().fromJson(json, TranslationSuccessResponse.class);
                     decipherRequestResponse.success(response);

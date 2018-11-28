@@ -23,8 +23,11 @@ public class IST440 {
      */
     public static void main(String[] args) {
         LoginController controller = new LoginController();
-
-        DecipherImageProccess process = new DecipherImageProccess(new DecipherImageProccessDelegate() {
+        testDecipher();
+    }
+    
+    private static void testDecipher() {
+        DecipherImageProccess process = new DecipherImageProccess(TranslationLanguage.PORTUGUES_BR, new DecipherImageProccessDelegate() {
             @Override
             public void finishedStep(DecipherImageProccessStep step) {
                 switch (step) {
@@ -58,7 +61,7 @@ public class IST440 {
 
     private static byte[] image() {
         try {
-            BufferedImage img = ImageIO.read(new File("amigo.png"));
+            BufferedImage img = ImageIO.read(new File("dpljr.png"));
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(img, "png", stream);
             return stream.toByteArray();
