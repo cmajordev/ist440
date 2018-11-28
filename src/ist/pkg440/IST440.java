@@ -23,7 +23,7 @@ public class IST440 {
      */
     public static void main(String[] args) {
         LoginController controller = new LoginController();
-        testDecipher();
+//        testDecipher();
     }
     
     private static void testDecipher() {
